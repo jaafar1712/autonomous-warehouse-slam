@@ -1,0 +1,358 @@
+<?xml version="1.0"?>
+<robot name="mam_robot">
+
+  <!-- ====================== BASE LINK ====================== -->
+  <link name="base_link">
+    <inertial>
+      <mass value="3"/>
+      <inertia ixx="0.0186" ixy="0" ixz="0" iyy="0.0228" iyz="0" izz="0.0391"/>
+    </inertial>
+    <visual>
+      <geometry><box size="0.28 0.25 0.07"/></geometry>
+      <material name="blue"><color rgba="0.2 0.2 0.8 1"/></material>
+    </visual>
+    <collision>
+      <geometry><box size="0.28 0.25 0.07"/></geometry>
+    </collision>
+  </link>
+
+  <link name="base_footprint"/>
+  <joint name="base_to_footprint" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_footprint"/>
+    <origin xyz="0 0 -0.035" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ====================== MECANUM WHEELS ====================== -->
+  <!-- radius=0.05m  length=0.04m  mass=0.5kg                      -->
+  <!-- Iyy=0.000625 (spin axis Y)  Ixx=Izz=0.000379                -->
+
+  <link name="front_left_wheel">
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.000379" ixy="0" ixz="0"
+               iyy="0.000625" iyz="0" izz="0.000379"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 1.5707963 0"/>
+      <geometry>
+        <mesh filename="package://mam_description/meshes/mecanum_wheel_left.STL"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="dark_grey"><color rgba="0.2 0.2 0.2 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 1.5707963 0"/>
+      <geometry><cylinder radius="0.05" length="0.04"/></geometry>
+    </collision>
+  </link>
+
+  <link name="front_right_wheel">
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.000379" ixy="0" ixz="0"
+               iyy="0.000625" iyz="0" izz="0.000379"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 1.5707963 0"/>
+      <geometry>
+        <mesh filename="package://mam_description/meshes/mecanum_wheel_right.STL"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="dark_grey"><color rgba="0.2 0.2 0.2 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 1.5707963 0"/>
+      <geometry><cylinder radius="0.05" length="0.04"/></geometry>
+    </collision>
+  </link>
+
+  <link name="rear_left_wheel">
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.000379" ixy="0" ixz="0"
+               iyy="0.000625" iyz="0" izz="0.000379"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 1.5707963 0"/>
+      <geometry>
+        <mesh filename="package://mam_description/meshes/mecanum_wheel_right.STL"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="dark_grey"><color rgba="0.2 0.2 0.2 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 1.5707963 0"/>
+      <geometry><cylinder radius="0.05" length="0.04"/></geometry>
+    </collision>
+  </link>
+
+  <link name="rear_right_wheel">
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.000379" ixy="0" ixz="0"
+               iyy="0.000625" iyz="0" izz="0.000379"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 1.5707963 0"/>
+      <geometry>
+        <mesh filename="package://mam_description/meshes/mecanum_wheel_left.STL"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="dark_grey"><color rgba="0.2 0.2 0.2 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 1.5707963 0"/>
+      <geometry><cylinder radius="0.05" length="0.04"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="front_left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="front_left_wheel"/>
+    <origin xyz="0.105 0.145 -0.035" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <joint name="front_right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="front_right_wheel"/>
+    <origin xyz="0.105 -0.145 -0.035" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <joint name="rear_left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rear_left_wheel"/>
+    <origin xyz="-0.105 0.145 -0.035" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <joint name="rear_right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rear_right_wheel"/>
+    <origin xyz="-0.105 -0.145 -0.035" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- ====================== GRIPPER ====================== -->
+  <link name="gripper_base">
+    <visual>
+      <geometry><box size="0.02 0.12 0.04"/></geometry>
+      <material name="grey"><color rgba="0.5 0.5 0.5 1"/></material>
+    </visual>
+    <collision>
+      <geometry><box size="0.02 0.12 0.04"/></geometry>
+    </collision>
+  </link>
+  <joint name="gripper_base_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="gripper_base"/>
+    <origin xyz="0.15 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="left_finger">
+    <visual>
+      <geometry><box size="0.06 0.015 0.04"/></geometry>
+      <material name="grey"><color rgba="0.5 0.5 0.5 1"/></material>
+    </visual>
+    <collision>
+      <geometry><box size="0.06 0.015 0.04"/></geometry>
+    </collision>
+  </link>
+  <joint name="left_finger_joint" type="prismatic">
+    <parent link="gripper_base"/>
+    <child link="left_finger"/>
+    <origin xyz="0.04 0.06 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.04" upper="0.04" effort="40" velocity="0.5"/>
+  </joint>
+
+  <link name="right_finger">
+    <visual>
+      <geometry><box size="0.06 0.015 0.04"/></geometry>
+      <material name="grey"><color rgba="0.5 0.5 0.5 1"/></material>
+    </visual>
+    <collision>
+      <geometry><box size="0.06 0.015 0.04"/></geometry>
+    </collision>
+  </link>
+  <joint name="right_finger_joint" type="prismatic">
+    <parent link="gripper_base"/>
+    <child link="right_finger"/>
+    <origin xyz="0.04 -0.06 0" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-0.04" upper="0.04" effort="40" velocity="0.5"/>
+  </joint>
+
+  <!-- ====================== IMU ====================== -->
+  <link name="imu_link">
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+    </inertial>
+  </link>
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ====================== VELODYNE VLP-16 ====================== -->
+  <!-- Mounted at top-center of base.  z = base_half_height + standoff = 0.035+0.05 -->
+  <link name="lidar_link">
+    <inertial>
+      <mass value="0.83"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <geometry><cylinder radius="0.052" length="0.073"/></geometry>
+      <material name="lidar_black"><color rgba="0.1 0.1 0.1 1"/></material>
+    </visual>
+    <collision>
+      <geometry><cylinder radius="0.052" length="0.073"/></geometry>
+    </collision>
+  </link>
+  <joint name="lidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_link"/>
+    <origin xyz="0 0 0.085" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ====================== RGBD CAMERA ====================== -->
+  <link name="camera_link">
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="1e-4" ixy="0" ixz="0" iyy="1e-4" iyz="0" izz="1e-4"/>
+    </inertial>
+    <visual>
+      <geometry><box size="0.025 0.09 0.025"/></geometry>
+      <material name="cam_black"><color rgba="0.05 0.05 0.05 1"/></material>
+    </visual>
+    <collision>
+      <geometry><box size="0.025 0.09 0.025"/></geometry>
+    </collision>
+  </link>
+  <joint name="camera_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+    <origin xyz="0.14 0 0.025" rpy="0 0 0"/>
+  </joint>
+
+  <!-- optical frame so image axes match ROS convention (z forward) -->
+  <link name="camera_optical_link"/>
+  <joint name="camera_optical_joint" type="fixed">
+    <parent link="camera_link"/>
+    <child link="camera_optical_link"/>
+    <origin xyz="0 0 0" rpy="-1.5707963 0 -1.5707963"/>
+  </joint>
+
+  <!-- ====================== ROS2 CONTROL ====================== -->
+  <ros2_control name="WheelSystem" type="system">
+    <hardware>
+      <plugin>ign_ros2_control/IgnitionSystem</plugin>
+    </hardware>
+    <joint name="front_left_wheel_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="front_right_wheel_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="rear_left_wheel_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="rear_right_wheel_joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+
+  <!-- ====================== IGNITION GAZEBO PLUGINS ====================== -->
+
+  <!-- ign_ros2_control manager -->
+  <gazebo>
+    <plugin filename="libign_ros2_control-system.so"
+            name="ign_ros2_control::IgnitionROS2ControlPlugin">
+      <parameters>$(find mam_control)/config/controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+  <!-- Velodyne VLP-16 -->
+  <gazebo reference="lidar_link">
+    <sensor name="velodyne_vlp16" type="gpu_lidar">
+      <ignition_frame_id>lidar_link</ignition_frame_id>
+      <topic>/velodyne_points</topic>
+      <update_rate>10</update_rate>
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>1800</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159265</min_angle>
+            <max_angle>3.14159265</max_angle>
+          </horizontal>
+          <vertical>
+            <samples>16</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.261799</min_angle>
+            <max_angle>0.261799</max_angle>
+          </vertical>
+        </scan>
+        <range>
+          <min>0.3</min>
+          <max>100.0</max>
+          <resolution>0.001</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </lidar>
+      <always_on>true</always_on>
+      <visualize>false</visualize>
+    </sensor>
+  </gazebo>
+
+  <!-- RGBD Camera -->
+  <gazebo reference="camera_link">
+    <sensor name="rgbd_camera" type="rgbd_camera">
+      <ignition_frame_id>camera_optical_link</ignition_frame_id>
+      <topic>/depth_camera</topic>
+      <update_rate>30</update_rate>
+      <camera>
+        <horizontal_fov>1.047</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>10.0</far>
+        </clip>
+      </camera>
+      <always_on>true</always_on>
+      <visualize>false</visualize>
+    </sensor>
+  </gazebo>
+
+  <!-- IMU -->
+  <gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+      <ignition_frame_id>imu_link</ignition_frame_id>
+      <topic>/imu</topic>
+      <update_rate>200</update_rate>
+      <always_on>true</always_on>
+      <visualize>false</visualize>
+    </sensor>
+  </gazebo>
+
+</robot>

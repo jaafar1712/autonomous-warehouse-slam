@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>mam_exploration</name>
+  <version>1.0.0</version>
+  <description>Frontier-based autonomous exploration using explore_lite</description>
+  <maintainer email="ali.yazbeck1412@gmail.com">Ali Yazbeck</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>explore_lite</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>mam_slam</name>
+  <version>1.0.0</version>
+  <description>RTAB-Map SLAM config — uses GenZ-ICP as external LiDAR odometry</description>
+  <maintainer email="ali.yazbeck1412@gmail.com">Ali Yazbeck</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rtabmap_ros</depend>
+  <depend>genz_icp</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

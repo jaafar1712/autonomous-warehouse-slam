@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>mam_simulation</name>
+  <version>1.0.0</version>
+  <description>Ignition Fortress warehouse world and robot spawn launch</description>
+  <maintainer email="ali.yazbeck1412@gmail.com">Ali Yazbeck</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>ros_gz_sim</depend>
+  <depend>ros_gz_bridge</depend>
+  <depend>robot_state_publisher</depend>
+  <depend>mam_description</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

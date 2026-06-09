@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>mam_bringup</name>
+  <version>1.0.0</version>
+  <description>Top-level launch — simulation + SLAM + navigation + exploration</description>
+  <maintainer email="ali.yazbeck1412@gmail.com">Ali Yazbeck</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>mam_simulation</depend>
+  <depend>mam_control</depend>
+  <depend>mam_slam</depend>
+  <depend>mam_navigation</depend>
+  <depend>mam_exploration</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
