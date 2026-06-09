@@ -1,13 +1,13 @@
-# RTAB-Map parameters for GenZ-ICP + VLP-16 pipeline
+# RTAB-Map parameters — 2D LaserScan pipeline
 #
-# GenZ-ICP provides:
+# ICPOdometry provides:
 #   /odometry           nav_msgs/Odometry   (odom → base_link TF)
-#   /velodyne_points    sensor_msgs/PointCloud2   (raw scan)
+# CPU lidar provides:
+#   /scan               sensor_msgs/LaserScan
 #
 # RTAB-Map adds:
 #   loop-closure detection
 #   /map                nav_msgs/OccupancyGrid   (for Nav2)
-#   /rtabmap/cloud_map  sensor_msgs/PointCloud2  (3-D map viz)
 
 rtabmap:
   ros__parameters:
@@ -19,35 +19,33 @@ rtabmap:
     map_frame_id:   map
 
     # ---------- Subscriptions ----------
-    # Use external odometry from GenZ-ICP (no internal visual / lidar odom)
-    subscribe_depth:     false
-    subscribe_rgb:       false
-    subscribe_scan:      false
-    subscribe_scan_cloud: true
-    approx_sync:         true
-    queue_size:          10
+    subscribe_depth:      false
+    subscribe_rgb:        false
+    subscribe_scan:       true
+    subscribe_scan_cloud: false
+    approx_sync:          true
+    queue_size:           10
 
     # ---------- Mapping ----------
-    # Grid map for Nav2 (2-D projection of 3-D cloud)
     Grid/CellSize:              "0.05"
     Grid/RangeMax:              "15.0"
     Grid/RangeMin:              "0.3"
     Grid/FromDepth:             "false"
     Grid/MaxObstacleHeight:     "2.0"
     Grid/MinGroundHeight:       "-0.1"
-    Grid/NormalsSegmentation:   "true"
+    Grid/NormalsSegmentation:   "false"
 
-    # ---------- ICP loop closure (works with the same point cloud) ----------
-    Reg/Strategy:               "1"      # ICP
-    Icp/MaxCorrespondenceDistance: "0.1"
-    Icp/MaxTranslation:         "0.2"
+    # ---------- ICP loop closure ----------
+    Reg/Strategy:               "1"
+    Icp/MaxCorrespondenceDistance: "0.15"
+    Icp/MaxTranslation:         "0.3"
     Icp/VoxelSize:              "0.05"
 
     # ---------- Graph optimisation ----------
     RGBD/NeighborLinkRefining:  "true"
     RGBD/ProximityBySpace:      "true"
-    RGBD/AngularUpdate:         "0.01"
-    RGBD/LinearUpdate:          "0.01"
+    RGBD/AngularUpdate:         "0.05"
+    RGBD/LinearUpdate:          "0.05"
     RGBD/OptimizeFromGraphEnd:  "false"
 
     # ---------- Memory ----------

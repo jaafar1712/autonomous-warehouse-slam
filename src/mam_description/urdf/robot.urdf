@@ -284,31 +284,25 @@
     </plugin>
   </gazebo>
 
-  <!-- Velodyne VLP-16 -->
+  <!-- 2-D CPU lidar — no GPU/render engine required, compatible with WSL2 -->
   <gazebo reference="lidar_link">
-    <sensor name="velodyne_vlp16" type="gpu_lidar">
+    <sensor name="lidar_sensor" type="lidar">
       <ignition_frame_id>lidar_link</ignition_frame_id>
-      <topic>/velodyne_points</topic>
+      <topic>/scan</topic>
       <update_rate>10</update_rate>
       <lidar>
         <scan>
           <horizontal>
-            <samples>1800</samples>
+            <samples>360</samples>
             <resolution>1</resolution>
             <min_angle>-3.14159265</min_angle>
             <max_angle>3.14159265</max_angle>
           </horizontal>
-          <vertical>
-            <samples>16</samples>
-            <resolution>1</resolution>
-            <min_angle>-0.261799</min_angle>
-            <max_angle>0.261799</max_angle>
-          </vertical>
         </scan>
         <range>
           <min>0.3</min>
-          <max>100.0</max>
-          <resolution>0.001</resolution>
+          <max>25.0</max>
+          <resolution>0.01</resolution>
         </range>
         <noise>
           <type>gaussian</type>
@@ -316,29 +310,6 @@
           <stddev>0.01</stddev>
         </noise>
       </lidar>
-      <always_on>true</always_on>
-      <visualize>false</visualize>
-    </sensor>
-  </gazebo>
-
-  <!-- RGBD Camera -->
-  <gazebo reference="camera_link">
-    <sensor name="rgbd_camera" type="rgbd_camera">
-      <ignition_frame_id>camera_optical_link</ignition_frame_id>
-      <topic>/depth_camera</topic>
-      <update_rate>30</update_rate>
-      <camera>
-        <horizontal_fov>1.047</horizontal_fov>
-        <image>
-          <width>640</width>
-          <height>480</height>
-          <format>R8G8B8</format>
-        </image>
-        <clip>
-          <near>0.1</near>
-          <far>10.0</far>
-        </clip>
-      </camera>
       <always_on>true</always_on>
       <visualize>false</visualize>
     </sensor>

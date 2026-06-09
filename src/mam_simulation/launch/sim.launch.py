@@ -10,21 +10,28 @@ def generate_launch_description():
     desc_pkg = get_package_share_directory('mam_description')
     sim_pkg  = get_package_share_directory('mam_simulation')
 
-    urdf_file    = os.path.join(desc_pkg, 'urdf', 'robot.urdf')
-    world_file   = os.path.join(sim_pkg,  'worlds', 'warehouse.sdf')
+    urdf_file  = os.path.join(desc_pkg, 'urdf', 'robot.urdf')
+    world_file = os.path.join(sim_pkg,  'worlds', 'warehouse.sdf')
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
 
-    with open(urdf_file, 'r') as f:
-        robot_description = f.read()
+    # Process URDF through xacro so $(find ...) substitutions are resolved
+    robot_description = Command(['xacro ', urdf_file])
+
+    # IGN_GAZEBO_SYSTEM_PLUGIN_PATH: exposes ign_ros2_control plugin to Ignition's loader
+    # No software-GL env needed: CPU lidar sensor does not use the render engine
+    ign_env = {
+        'IGN_GAZEBO_SYSTEM_PLUGIN_PATH': '/opt/ros/humble/lib',
+    }
 
     return LaunchDescription([
         DeclareLaunchArgument('use_sim_time', default_value='true'),
 
-        # Ignition Gazebo
+        # Ignition Gazebo — server-only (-s), no GUI window needed
         ExecuteProcess(
-            cmd=['ign', 'gazebo', '-r', world_file],
+            cmd=['ign', 'gazebo', '-s', '-r', world_file],
             output='screen',
+            additional_env=ign_env,
         ),
 
         # robot_state_publisher
@@ -60,18 +67,10 @@ def generate_launch_description():
                 executable='parameter_bridge',
                 name='gz_bridge',
                 arguments=[
-                    '/velodyne_points@sensor_msgs/msg/PointCloud2'
-                    '[ignition.msgs.PointCloudPacked',
+                    '/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan',
                     '/imu@sensor_msgs/msg/Imu[ignition.msgs.IMU',
-                    '/depth_camera/image@sensor_msgs/msg/Image'
-                    '[ignition.msgs.Image',
-                    '/depth_camera/depth_image@sensor_msgs/msg/Image'
-                    '[ignition.msgs.Image',
-                    '/depth_camera/camera_info@sensor_msgs/msg/CameraInfo'
-                    '[ignition.msgs.CameraInfo',
                     '/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock',
                 ],
-                remappings=[('/velodyne_points', '/velodyne_points')],
                 output='screen',
             ),
         ]),
